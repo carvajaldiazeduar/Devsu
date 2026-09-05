@@ -1,0 +1,33 @@
+<Solution>
+  <Folder Name="/ClienteService/" />
+  <Folder Name="/ClienteService/API/">
+    <Project Path="ClienteService/API/ClienteService.API.csproj" />
+  </Folder>
+  <Folder Name="/ClienteService/Application/">
+    <Project Path="ClienteService/Application/ClienteService.Application.csproj" />
+  </Folder>
+  <Folder Name="/ClienteService/Domain/">
+    <Project Path="ClienteService/Domain/ClienteService.Domain.csproj" />
+  </Folder>
+  <Folder Name="/ClienteService/Infrastructure/">
+    <Project Path="ClienteService/Infrastructure/ClienteService.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/CuentaMovimientoService/" />
+  <Folder Name="/CuentaMovimientoService/API/">
+    <Project Path="CuentaMovimientoService/API/CuentaMovimientoService.API.csproj" />
+  </Folder>
+  <Folder Name="/CuentaMovimientoService/Application/">
+    <Project Path="CuentaMovimientoService/Application/CuentaMovimientoService.Application.csproj" />
+  </Folder>
+  <Folder Name="/CuentaMovimientoService/Domain/">
+    <Project Path="CuentaMovimientoService/Domain/CuentaMovimientoService.Domain.csproj" />
+  </Folder>
+  <Folder Name="/CuentaMovimientoService/Infrastructure/">
+    <Project Path="CuentaMovimientoService/Infrastructure/CuentaMovimientoService.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/ClienteService.Tests/ClienteService.Tests.csproj" />
+    <Project Path="tests/CuentaMovimientoService.Tests/CuentaMovimientoService.Tests.csproj" />
+    <Project Path="tests/IntegrationTests/IntegrationTests.csproj" />
+  </Folder>
+</Solution>

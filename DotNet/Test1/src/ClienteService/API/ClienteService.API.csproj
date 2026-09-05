@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.8">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="8.0.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.7.3" />
+    <PackageReference Include="System.Text.Json" Version="8.0.5" />
+    <!-- xUnit package references removed: this is not a test project -->
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Application\ClienteService.Application.csproj" />
+    <ProjectReference Include="..\Infrastructure\ClienteService.Infrastructure.csproj" />
+    <ProjectReference Include="..\Domain\ClienteService.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

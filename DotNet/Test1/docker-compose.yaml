@@ -1,0 +1,99 @@
+services:
+  db_clientes:
+    image: postgres:15-alpine
+    container_name: db_clientes
+    environment:
+      POSTGRES_DB: ClientesDb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${PG_CLIENTES_PASSWORD}
+    ports:
+      - "5431:5432"
+    volumes:
+      - db_clientes_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d ClientesDb"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  db_cuentas:
+    image: postgres:15-alpine
+    container_name: db_cuentas
+    environment:
+      POSTGRES_DB: CuentasDb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${PG_CUENTAS_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_cuentas_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d CuentasDb"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS}
+    healthcheck:
+      test: ["CMD-SHELL", "rabbitmq-diagnostics -q ping -t 5"]
+      interval: 5s
+      timeout: 10s
+      retries: 12
+
+  cliente-api:
+    build:
+      context: .
+      dockerfile: src/ClienteService/Dockerfile
+    container_name: cliente-api
+    ports:
+      - "5001:8080"
+    depends_on:
+      db_clientes:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    environment:
+      ClientesDb__Host: db_clientes
+      ClientesDb__Port: "5432"
+      ClientesDb__Database: ClientesDb
+      ClientesDb__Username: postgres
+      ClientesDb__Password: ${PG_CLIENTES_PASSWORD}
+      RabbitMQ__HostName: rabbitmq
+      RabbitMQ__Port: "5672"
+      RabbitMQ__UserName: ${RABBITMQ_USER}
+      RabbitMQ__Password: ${RABBITMQ_PASS}
+
+  cuentamovimiento-api:
+    build:
+      context: .
+      dockerfile: src/CuentaMovimientoService/Dockerfile
+    container_name: cuentamovimiento-api
+    ports:
+      - "5002:8080"
+    depends_on:
+      db_cuentas:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    environment:
+      CuentasDb__Host: db_cuentas
+      CuentasDb__Port: "5432"
+      CuentasDb__Database: CuentasDb
+      CuentasDb__Username: postgres
+      CuentasDb__Password: ${PG_CUENTAS_PASSWORD}
+      RabbitMQ__HostName: rabbitmq
+      RabbitMQ__Port: "5672"
+      RabbitMQ__UserName: ${RABBITMQ_USER}
+      RabbitMQ__Password: ${RABBITMQ_PASS}
+
+volumes:
+  db_clientes_data:
+  db_cuentas_data:
